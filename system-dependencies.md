@@ -10,5 +10,10 @@ sudo apt-get install libreoffice
 brew install --cask libreoffice
 ```
 
+### Recommended (Chinese watermarks)
+```bash
+brew install --cask font-noto-sans-cjk-sc
+```
+
 ## Windows
 Download LibreOffice from https://www.libreoffice.org/

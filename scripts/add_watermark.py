@@ -12,7 +12,23 @@ from pathlib import Path
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from reportlab.lib.colors import Color
+from reportlab.pdfbase import pdfmetrics
+from reportlab.pdfbase.ttfonts import TTFont
 from PyPDF2 import PdfReader, PdfWriter
+
+DEFAULT_CJK_FONT = "/Users/mac/Library/Fonts/NotoSansCJKsc-Regular.otf"
+
+
+def _register_cjk_font():
+    # Allow override via env var if different font path is preferred
+    font_path = os.environ.get("PPT2PDF_CJK_FONT", DEFAULT_CJK_FONT)
+    if os.path.exists(font_path):
+        try:
+            pdfmetrics.registerFont(TTFont("NotoSansCJKsc", font_path))
+            return "NotoSansCJKsc"
+        except Exception:
+            return None
+    return None
 
 def create_text_watermark(text, output_path, page_size=(612, 792), 
                          opacity=0.3, rotation=45, font_size=40, 
@@ -23,8 +39,9 @@ def create_text_watermark(text, output_path, page_size=(612, 792),
     # Set transparency
     c.setFillColor(Color(font_color[0], font_color[1], font_color[2], alpha=opacity))
     
-    # Set font
-    c.setFont("Helvetica", font_size)
+    # Set font (prefer CJK font if available)
+    font_name = _register_cjk_font() or "Helvetica"
+    c.setFont(font_name, font_size)
     
     # Rotate and position text at center
     c.saveState()
@@ -41,7 +58,8 @@ def create_tiled_watermark(text, output_path, page_size=(612, 792),
     """Create a PDF with tiled text watermark across entire page"""
     c = canvas.Canvas(str(output_path), pagesize=page_size)
     c.setFillColor(Color(0.5, 0.5, 0.5, alpha=opacity))
-    c.setFont("Helvetica", font_size)
+    font_name = _register_cjk_font() or "Helvetica"
+    c.setFont(font_name, font_size)
     
     # Calculate default spacing based on font size if not provided
     if spacing_x is None:
@@ -66,7 +84,8 @@ def create_image_watermark(image_path, output_path, page_size=(612, 792),
     """Create a PDF with image watermark (placeholder implementation)"""
     c = canvas.Canvas(str(output_path), pagesize=page_size)
     c.setFillColor(Color(0.5, 0.5, 0.5, alpha=opacity))
-    c.setFont("Helvetica", 20)
+    font_name = _register_cjk_font() or "Helvetica"
+    c.setFont(font_name, 20)
     c.drawString(50, 50, f"Image watermark: {Path(image_path).name}")
     c.save()
 

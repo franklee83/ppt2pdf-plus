@@ -24,5 +24,15 @@ If you get "ModuleNotFoundError", ensure all Python dependencies are installed:
 pip install PyPDF2 reportlab Pillow
 ```
 
+### Chinese Watermark Not Visible
+Install a CJK font (recommended) and/or set the font path:
+```bash
+export PPT2PDF_CJK_FONT="/path/to/NotoSansCJKsc-Regular.otf"
+```
+macOS:
+```bash
+brew install --cask font-noto-sans-cjk-sc
+```
+
 ### Permission Issues
 On some systems, you may need to use `sudo` for system package installation.

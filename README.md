@@ -70,5 +70,15 @@ python scripts/convert_with_watermark.py pres.pptx --output final.pdf \
 - **System**: LibreOffice
 - **Python**: PyPDF2, ReportLab, Pillow
 
+## Chinese Watermark Support
+If Chinese watermarks do not render, install a CJK font and (optionally) set:
+```bash
+export PPT2PDF_CJK_FONT="/path/to/NotoSansCJKsc-Regular.otf"
+```
+macOS (recommended):
+```bash
+brew install --cask font-noto-sans-cjk-sc
+```
+
 ## License
 MIT
