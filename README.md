@@ -71,7 +71,7 @@ python scripts/convert_with_watermark.py pres.pptx --output final.pdf \
 - **Python**: PyPDF2, ReportLab, Pillow
 
 ## Chinese Watermark Support
-If Chinese watermarks do not render, install a CJK font and (optionally) set:
+The watermark helper searches common system font paths (macOS/Linux/Windows) and will fall back to a built-in CJK CID font when no external fonts are found. If Chinese watermarks do not render or you need a specific font, install a CJK font and (optionally) set:
 ```bash
 export PPT2PDF_CJK_FONT="/path/to/NotoSansCJKsc-Regular.otf"
 ```

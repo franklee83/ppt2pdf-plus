@@ -14,21 +14,44 @@ from reportlab.lib.pagesizes import letter
 from reportlab.lib.colors import Color
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
+from reportlab.pdfbase.cidfonts import UnicodeCIDFont
 from PyPDF2 import PdfReader, PdfWriter
 
-DEFAULT_CJK_FONT = "/Users/mac/Library/Fonts/NotoSansCJKsc-Regular.otf"
+CJK_FONT_CANDIDATES = [
+    os.environ.get("PPT2PDF_CJK_FONT"),
+    "/usr/share/fonts/opentype/noto/NotoSansCJKsc-Regular.otf",
+    "/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc",
+    "/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc",
+    "/System/Library/Fonts/PingFang.ttc",
+    "/System/Library/Fonts/Hiragino Sans GB.ttc",
+    "/Library/Fonts/Arial Unicode.ttf",
+    "/Library/Fonts/STHeiti Medium.ttc",
+    "C:\\Windows\\Fonts\\msyh.ttc",
+    "C:\\Windows\\Fonts\\simhei.ttf",
+]
 
 
 def _register_cjk_font():
     # Allow override via env var if different font path is preferred
-    font_path = os.environ.get("PPT2PDF_CJK_FONT", DEFAULT_CJK_FONT)
-    if os.path.exists(font_path):
-        try:
-            pdfmetrics.registerFont(TTFont("NotoSansCJKsc", font_path))
-            return "NotoSansCJKsc"
-        except Exception:
-            return None
-    return None
+    candidates = [path for path in CJK_FONT_CANDIDATES if path]
+    for index, font_path in enumerate(candidates):
+        if os.path.exists(font_path):
+            try:
+                font_name = f"CJKFont{index}"
+                if font_name not in pdfmetrics.getRegisteredFontNames():
+                    pdfmetrics.registerFont(TTFont(font_name, font_path))
+                return font_name
+            except Exception:
+                continue
+
+    # Fall back to built-in CID font (covers Chinese/Japanese/Korean)
+    try:
+        fallback_name = "STSong-Light"
+        if fallback_name not in pdfmetrics.getRegisteredFontNames():
+            pdfmetrics.registerFont(UnicodeCIDFont(fallback_name))
+        return fallback_name
+    except Exception:
+        return None
 
 def create_text_watermark(text, output_path, page_size=(612, 792), 
                          opacity=0.3, rotation=45, font_size=40, 
