@@ -23,6 +23,7 @@ def main():
     parser.add_argument('--opacity', type=float, default=0.3, help='Watermark opacity (0.0-1.0)')
     parser.add_argument('--rotation', type=int, default=45, help='Text rotation angle')
     parser.add_argument('--font-size', type=int, default=40, help='Text font size')
+    parser.add_argument('--font-path', help='Path to a CJK font file (overrides PPT2PDF_CJK_FONT)')
     parser.add_argument('--tiled', action='store_true', help='Create tiled watermark across entire page')
     parser.add_argument('--spacing-x', type=int, default=None, help='Horizontal spacing for tiled watermark')
     parser.add_argument('--spacing-y', type=int, default=None, help='Vertical spacing for tiled watermark')
@@ -64,7 +65,8 @@ def main():
                         rotation=args.rotation,
                         font_size=args.font_size,
                         spacing_x=args.spacing_x,
-                        spacing_y=args.spacing_y
+                        spacing_y=args.spacing_y,
+                        font_path=args.font_path,
                     )
                 else:
                     create_text_watermark(
@@ -72,7 +74,8 @@ def main():
                         page_size=page_size,
                         opacity=args.opacity,
                         rotation=args.rotation,
-                        font_size=args.font_size
+                        font_size=args.font_size,
+                        font_path=args.font_path,
                     )
             else:
                 # For image watermark, we'd need to handle page size similarly
