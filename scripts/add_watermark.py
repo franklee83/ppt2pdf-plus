@@ -126,6 +126,7 @@ def _candidate_font_paths():
         candidates.extend(
             [
                 Path("/usr/share/fonts/opentype/noto/NotoSansCJKsc-Regular.otf"),
+                Path("/usr/share/fonts/truetype/wqy/wqy-microhei.ttc"),
                 Path("/usr/share/fonts/opentype/noto/NotoSansCJK-Regular.ttc"),
                 Path("/usr/share/fonts/truetype/noto/NotoSansCJK-Regular.ttc"),
                 Path("/usr/share/fonts/opentype/source-han-sans/SourceHanSansSC-Regular.otf"),

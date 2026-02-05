@@ -29,6 +29,9 @@ Install a CJK font (recommended) and/or set the font path. The scripts
 auto-discover common fonts, honor `PPT2PDF_CJK_FONT`, and allow explicit
 `--font-path` overrides.
 ```bash
+# Linux users: Install WenQuanYi Micro Hei font for best compatibility
+# sudo apt-get install fonts-wqy-microhei
+#
 export PPT2PDF_CJK_FONT="/path/to/NotoSansCJKsc-Regular.otf"
 ```
 macOS:
