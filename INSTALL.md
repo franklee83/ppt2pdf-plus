@@ -25,7 +25,9 @@ pip install PyPDF2 reportlab Pillow
 ```
 
 ### Chinese Watermark Not Visible
-Install a CJK font (recommended) and/or set the font path:
+Install a CJK font (recommended) and/or set the font path. The scripts
+auto-discover common fonts, honor `PPT2PDF_CJK_FONT`, and allow explicit
+`--font-path` overrides.
 ```bash
 export PPT2PDF_CJK_FONT="/path/to/NotoSansCJKsc-Regular.otf"
 ```
