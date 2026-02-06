@@ -77,6 +77,12 @@ Defaults for tiled spacing scale with font size and are clamped to stay reasonab
 If Chinese watermarks do not render, install a CJK font or provide an explicit font path.
 The scripts auto-discover common CJK fonts across macOS, Windows, and Linux, and still
 honor `PPT2PDF_CJK_FONT`. You can override with `--font-path`.
+
+**Linux Note**: For best results on Linux, install WenQuanYi Micro Hei font:
+```bash
+sudo apt-get install fonts-wqy-microhei
+```
+
 ```bash
 export PPT2PDF_CJK_FONT="/path/to/NotoSansCJKsc-Regular.otf"
 ```
